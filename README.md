@@ -1,18 +1,21 @@
 # GitLab Inventory Tools
 
-This repository contains a comprehensive set of tools for analyzing GitLab projects and facilitating migration from GitLab to GitHub. It includes Python scripts for collecting detailed statistics, GitLab Exporter tools, and migration utilities.
+This repository contains Python scripts for analyzing GitLab projects and collecting detailed statistics. It helps organizations gather comprehensive information about their GitLab repositories for inventory management and migration planning.
 
 ## Repository Structure
 
 ```
 GitLab_Inventory/
 ├── scripts/              # Python scripts for GitLab analysis
-│   ├── gitlab-details.py
-│   ├── gitlab-groups.py
-│   └── gitlab-group-discovery.py
-├── gl-exporter/          # GitLab repository exporter tool
-├── gl-migrate/           # GitLab to GitHub migration tool
-└── docs/                 # Documentation
+│   ├── gitlab-details.py    # Collects detailed project statistics
+│   ├── gitlab-groups.py     # Fetches GitLab groups information
+│   ├── setup-venv.bat       # Windows setup script
+│   ├── setup-venv.sh        # Unix/Linux setup script
+│   └── data/                # Output directory for CSV files
+│       ├── gitlab-groups.csv
+│       └── gitlab-stats.csv
+├── requirements.txt      # Python dependencies
+└── README.md            # This documentation
 ```
 
 ## Prerequisites
@@ -28,7 +31,7 @@ GitLab_Inventory/
 Install the required Python packages using pip:
 
 ```bash
-pip install requests
+pip install requests python-dotenv
 ```
 
 Or use the requirements.txt file:
@@ -119,37 +122,6 @@ python3 gitlab-groups.py
 **Output:**
 - Creates `data/gitlab-groups.csv` with group information
 
-### 3. gitlab-group-discovery.py
-
-Discovers and analyzes GitLab group hierarchies and projects.
-
-**Usage:**
-
-```bash
-cd scripts
-python3 gitlab-group-discovery.py
-```
-
-### GitLab Exporter (`gl-exporter/`)
-
-Ruby-based tool for exporting GitLab repositories to GitHub-compatible format. See [gl-exporter/README.md](gl-exporter/README.md) for detailed documentation.
-
-**Key Features:**
-- Export GitLab projects to GitHub format
-- Preserve repository history
-- Export issues, merge requests, and metadata
-- Archive generation
-
-### Migration Tool (`gl-migrate/`)
-
-Python-based tool for automated GitLab to GitHub migrations. See [gl-migrate/README.md](gl-migrate/README.md) for detailed documentation.
-
-**Key Features:**
-- Automated repository migration
-- Batch processing support
-- Configuration-based migration
-- Inventory tracking
-
 ## Output Directory
 
 All scripts save their output to the `scripts/data/` directory. This directory is automatically created if it doesn't exist.
@@ -232,20 +204,19 @@ cd scripts
 python3 gitlab-details.py
 ```
 
-### Workflow 3: Export and Migrate
+### Workflow 3: Data Analysis
 
 ```bash
 # 1. Collect project statistics
 cd scripts
 python3 gitlab-details.py
 
-# 2. Use gl-exporter to export repositories
-cd ../gl-exporter
-# See gl-exporter/README.md for usage
+# 2. Analyze group structure
+python3 gitlab-groups.py
 
-# 3. Use gl-migrate for batch migration
-cd ../gl-migrate
-# See gl-migrate/README.md for usage
+# 3. Review and analyze the generated CSV files
+# data/gitlab-stats.csv - Detailed project information
+# data/gitlab-groups.csv - Group structure information
 ```
 
 ## Troubleshooting
@@ -269,7 +240,7 @@ cd ../gl-migrate
 - Consider increasing timeout values for very large repositories
 
 **4. Missing Dependencies**
-- Install required packages: `pip install requests`
+- Install required packages: `pip install requests python-dotenv`
 - For full requirements: `pip install -r requirements.txt`
 - Ensure Python 3.7+ is installed: `python3 --version`
 
@@ -401,9 +372,6 @@ Processing time depends on:
 
 - [GitLab API Documentation](https://docs.gitlab.com/ee/api/)
 - [GitHub Migration Guide](https://docs.github.com/en/migrations)
-- [gl-exporter Documentation](gl-exporter/README.md)
-- [gl-migrate Documentation](gl-migrate/README.md)
-- [GitHub Partner Support](docs/github-partner-support.md)
 
 ## Support and Contributions
 
